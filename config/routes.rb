@@ -71,4 +71,5 @@ Rails.application.routes.draw do
   # ====================
   # | update route     |
   # ====================
+  put '/user_boards/:id', to: 'user_boards#update'
 end
