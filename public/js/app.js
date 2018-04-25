@@ -47,10 +47,66 @@ class CommunityImage extends React.Component{
 }
 
 class EditImage extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = ({
+      image: '',
+      description: ''
+    });
+    this.editImageSubmit = this.editImageSubmit.bind(this);
+    this.getInputs = this.getInputs.bind(this);
+  }
+
+  componentDidMount(){
+    if(this.props.image){
+      this.setState({
+        image: this.props.image.image,
+        description: this.props.image.description
+      })
+    }
+  }
+
+  getInputs(event){
+    // console.log(event.target.value);
+    this.setState({
+      [event.target.id]: event.target.value
+    });
+  }
+
+  editImageSubmit(event){
+    event.preventDefault();
+    // console.log('edit image');
+    this.props.editImage(this.state)
+  }
+
   render(){
     return(
       <div className="comm_image_edit_container">
-        edit page
+        <form onSubmit={this.editImageSubmit}>
+          <div>
+            <label className="label" for="image">Image URL:</label>
+            <input
+              className="input"
+              type="URL"
+              name="image"
+              id="image"
+              onChange={this.getInputs}
+              value={this.state.image}
+            />
+          </div>
+          <div>
+            <label className="label" for="description">Description:</label>
+            <input
+              className="input"
+              type="text"
+              name="description"
+              id="description"
+              onChange={this.getInputs}
+              value={this.state.description}
+            />
+          </div>
+          <input type="submit" />
+        </form>
       </div>
     )
   }
@@ -110,6 +166,10 @@ class CommunityBoard extends React.Component{
     console.log(this.state.image);
   }
 
+  editImage(image){
+    console.log('incepted edit', image);
+  }
+
   render(){
     return(
       <div className="comm_board_container">
@@ -135,6 +195,7 @@ class CommunityBoard extends React.Component{
           (this.state.editVisible)?
             <EditImage
               image={this.state.image}
+              editImage={this.editImage}
             />
           :
             ''
