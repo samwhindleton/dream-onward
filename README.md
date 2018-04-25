@@ -37,6 +37,8 @@ JS
 
 ### Wireframe
 
+![wireframe](/images/wireframe/wireframe.png)
+
 ---
 
 ### Resources
@@ -44,3 +46,5 @@ JS
 ---
 
 ### Project Setup / Steps
+
+[Deploy your rails and psql app on heroku guide.](https://github.com/samwhindleton/dream-onward/blob/master/deploy-rails-psql-app-on-heroku-guide.md)
