@@ -1,10 +1,11 @@
 class CommunityBoardImage
-  attr_reader :id, :image
+  attr_reader :id, :image, :description
   DB = PG.connect(host: 'localhost', port: 5432, dbname: 'dream_onward')
 
   def initialize(opts)
     @id = opts["id"].to_i
     @image = opts["image"]
+    @description = opts["description"]
   end
 
   # ==========
@@ -20,7 +21,8 @@ class CommunityBoardImage
     return results.map do |result|
       CommunityBoardImage.new({
         "id" => result["id"],
-        "image" => result["image"]
+        "image" => result["image"],
+        "description" => result["description"]
       })
     end
   end
@@ -39,7 +41,8 @@ class CommunityBoardImage
     return results.map do |result|
       CommunityBoardImage.new({
         "id" => result["id"],
-        "image" => result["image"]
+        "image" => result["image"],
+        "description" => result["description"]
       })
     end
   end
@@ -51,12 +54,12 @@ class CommunityBoardImage
   def self.create(opts)
     results = DB.exec(
       <<-SQL
-        INSERT INTO community_board (image)
-        VALUES ('#{opts["image"]}')
-        RETURNING id, image;
+        INSERT INTO community_board (image, description)
+        VALUES ('#{opts["image"]}', '#{opts["description"]}')
+        RETURNING id, image, description;
       SQL
     )
-    return Tweet.new(results.first)
+    return CommunityBoardImage.new(results.first)
   end
 
   # ==========
@@ -81,12 +84,14 @@ class CommunityBoardImage
     results = DB.exec(
       <<-SQL
         UPDATE community_board
-        SET image = '#{opts["image"]}'
+        SET
+          image = '#{opts["image"]}',
+          description = '#{opts["description"]}'
         WHERE id = #{id}
-        RETURNING id, image;
+        RETURNING id, image, description;
       SQL
     )
-    return Tweet.new(results.first)
+    return CommunityBoardImage.new(results.first)
   end
 
 end
