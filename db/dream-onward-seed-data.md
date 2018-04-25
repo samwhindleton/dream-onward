@@ -17,7 +17,7 @@ psql dream_onward
 
 ### [3] create tables
 
-* community_board:
+* community_boards:
 
   * id
 
@@ -26,7 +26,7 @@ psql dream_onward
   * description (used for <img/> alt text, max 32 chars)
 
 ```
-CREATE TABLE community_board (id SERIAL, image TEXT, description VARCHAR(32));
+CREATE TABLE community_boards (id SERIAL, image TEXT, description VARCHAR(32));
 ```
 
 * users
@@ -63,10 +63,10 @@ CREATE TABLE user_boards (id SERIAL, user_id INT, image TEXT, description VARCHA
 
 ### [4] add data to tables
 
-* community_board
+* community_boards
 
 ```
-INSERT INTO community_board (image, description) VALUES
+INSERT INTO community_boards (image, description) VALUES
 ('https://www.skydivenewengland.com/wp-content/uploads/2017/03/Swoopware-0045-1200x900.jpg', 'Sky diving'),
 ('https://static1.squarespace.com/static/577eb4326b8f5b6d779757a6/t/5a3ab737e2c483677794dcc9/1513797480996/art+class+2.jpg', 'Art class'),
 ('https://static.comicvine.com/uploads/scale_medium/11/117763/2491344-av1.png', 'Avengers comic book'),
