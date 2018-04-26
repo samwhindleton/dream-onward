@@ -14,13 +14,20 @@ bulmap css framework
 color palette
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 :root {
-  --foobar: #000;
+  --dream: #815166;
+  --golden: #f3c54c;
+  --glow: #fdf0b5;
+  --night: #1c1933;
+  --fade: #5c6f6f;
 }
 
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 main style
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+/* NOTE: 1em === 16px */
+
 * {
   /* Found on CSS-TRICKS
   https://css-tricks.com/snippets/css/prevent-long-urls-from-breaking-out-of-container/ */
@@ -41,3 +48,154 @@ html {
   height: 100%;
   overflow-x: hidden;
 }
+
+/* main container of website */
+.main-container {
+  min-height: 100vh:
+  width: 100vw;
+}
+
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+header style
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+.header {
+  background: var(--night);
+  background: linear-gradient(180deg, var(--night), var(--dream) 150%);
+}
+
+.hero-head {
+  background: var(--night);
+}
+
+.navbar-brand h1, h1.title {
+  color: var(--glow);
+}
+
+a.navbar-item.is-active, h2.subtitle {
+  color: var(--golden);
+}
+
+.navbar-item {
+  color: var(--fade);
+}
+
+h1.title {
+  font-size: 3em;
+}
+
+h2.subtitle {
+  font-size: 1.76em;
+}
+
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+community images style
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+.community_image_container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.tile.is-3 {
+  flex: none;
+  width: 100%;
+}
+
+.community_image_container > div > img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+  -moz-transition-duration: 1200ms;
+  -o-transition-duration: 1200ms;
+  -webkit-transition-duration: 1200ms;
+  transition-duration-duration: 1200ms;
+}
+
+.community_image_container > div > img:hover {
+  -moz-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  -o-transform: scale(1.1);
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
+  -moz-transition-duration: 600ms;
+  -o-transition-duration: 600ms;
+  -webkit-transition-duration: 600ms;
+  transition-duration: 600ms;
+}
+
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+media queries style
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+/* mobile */
+@media screen and (min-width: 480px) {
+  /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  header style
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+  .hero.is-medium .hero-body {
+    padding: 5rem 0;
+  }
+
+  h1.title {
+    font-size: 4em;
+  }
+
+  h2.subtitle {
+    font-size: 2.36em;
+  }
+  /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  community images style
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+  .tile.is-3 {
+    width: 50%;
+  }
+}
+
+/* tablet */
+@media screen and (min-width: 769px) {
+  /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  header style
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+  .hero.is-medium .hero-body {
+    padding: 7rem 0;
+  }
+
+  h1.title {
+    font-size: 5em;
+  }
+
+  h2.subtitle {
+    font-size: 3em;
+  }
+  /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  community images style
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+  .tile.is-3 {
+    width: 33.33333%;
+  }
+}
+
+/* desktop */
+@media screen and (min-width: 1088px) {
+  /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  community images style
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+  .tile.is-3 {
+    width: 25%;
+  }
+}
+
+/* widescreen */
+@media screen and (min-width: 1280px) {
+  .tile.is-3 {
+    width: 16.66667%;
+  }
+}
+
+/* full hd */
+@media screen and (min-width: 1472px) {}

@@ -2,8 +2,68 @@ class Header extends React.Component{
   render(){
     return(
       <header className="header">
-        <h1>Dream Onward</h1>
-        <h2>Paper-Free Dream Boards</h2>
+        {/* <h1>Dream Onward</h1>
+        <h2>Paper-Free Dream Boards</h2> */}
+        <section className="hero is-medium">
+          {/* head */}
+          <div className="hero-head">
+            <nav className="navbar">
+              <div className="container">
+                <div className="navbar-brand">
+                  <a className="navbar-item">
+                    <h1>Dream Onward</h1>
+                    {/* <img src="" alt="Logo"/> */}
+                  </a>
+                  <span className="navbar-burger burger" data-target="#navbarMenuHeroA">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </span>
+                </div>
+                <div id="navbarMenuHeroA" className="navbar-menu">
+                  <div className="navbar-end">
+                    <a className="navbar-item is-active">
+                      Home
+                    </a>
+                    <a className="navbar-item">
+                      About
+                    </a>
+                    <a className="navbar-item">
+                      Contact
+                    </a>
+                    <a className="navbar-item">
+                      Signup
+                    </a>
+                    <a className="navbar-item">
+                      Login
+                    </a>
+                    <a className="navbar-item">
+                      Profile
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </nav>
+          </div>
+
+          {/* content */}
+          <div className="hero-body">
+            <div className="container has-text-centered">
+              <h1 className="title">
+                Dream Onward
+              </h1>
+              <h2 className="subtitle">
+                Paper-Free Dream Boards
+              </h2>
+              {
+                (!this.props.createVisible)?
+                  <button onClick={this.props.openCreate}>Add a Dream!</button>
+                :
+                  ''
+              }
+            </div>
+          </div>
+        </section>
       </header>
     )
   }
@@ -16,13 +76,15 @@ class CommunityImagesList extends React.Component{
       <div className="community_image_container">
         {this.props.boardData.map((image, index)=>{
           return(
-            <img
-              src={image.image}
-              alt={image.description}
-              onClick={()=>{
-                this.props.getCommunityImage(image);
-              }}
-            />
+            <div className="tile is-3">
+              <img
+                src={image.image}
+                alt={image.description}
+                onClick={()=>{
+                  this.props.getCommunityImage(image);
+                }}
+              />
+            </div>
           )
         })}
       </div>
@@ -58,8 +120,8 @@ class EditImage extends React.Component{
       image: '',
       description: ''
     });
-    this.editImageSubmit = this.editImageSubmit.bind(this);
     this.getInputs = this.getInputs.bind(this);
+    this.editImageSubmit = this.editImageSubmit.bind(this);
   }
 
   componentDidMount(){
@@ -119,6 +181,66 @@ class EditImage extends React.Component{
   }
 }
 
+// add image form
+class CreateImage extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = ({
+      id: 0,
+      image: '',
+      description: ''
+    });
+    this.getInputs = this.getInputs.bind(this);
+    this.createSubmit = this.createSubmit.bind(this);
+  }
+
+  getInputs(event){
+    // console.log(event.target.value);
+    this.setState({
+      [event.target.id]: event.target.value
+    });
+  }
+
+  createSubmit(event){
+    event.preventDefault();
+    this.props.createImageSubmit(this.state);
+  }
+
+  render(){
+    return(
+      <div className="comm_image_create_container">
+        <form onSubmit={this.createSubmit}>
+          <div>
+            <label className="label" for="image">Image URL:</label>
+            <input
+              className="input"
+              type="URL"
+              name="image"
+              id="image"
+              onChange={this.getInputs}
+              value={this.state.image}
+            />
+          </div>
+          <div>
+            <label className="label" for="description">Description:</label>
+            <input
+              className="input"
+              type="text"
+              name="description"
+              id="description"
+              onChange={this.getInputs}
+              value={this.state.description}
+            />
+          </div>
+          <input type="submit" />
+        </form>
+        <button onClick={()=>this.props.getCommunityImages()}>Cancel</button>
+      </div>
+    )
+  }
+}
+
+// index and functinos
 class CommunityBoard extends React.Component{
   constructor(props){
     super(props);
@@ -127,12 +249,17 @@ class CommunityBoard extends React.Component{
       image: '',
       indexVisible: true,
       showVisible: false,
-      editVisible: false
+      editVisible: false,
+      createVisible: false
     });
     this.getCommunityImages = this.getCommunityImages.bind(this);
     this.getCommunityImage = this.getCommunityImage.bind(this);
     this.showEditPage = this.showEditPage.bind(this);
     this.deleteImage = this.deleteImage.bind(this);
+    this.editImage = this.editImage.bind(this);
+    this.openCreate = this.openCreate.bind(this);
+    this.handleCreate = this.handleCreate.bind(this);
+    this.createImageSubmit = this.createImageSubmit.bind(this);
   }
 
   // runs getCommunityImages on load
@@ -146,12 +273,12 @@ class CommunityBoard extends React.Component{
       .then((response)=>response.json())
       // .then((data)=>console.log(data))
       .then((data)=>{
-        console.log(data);
         this.setState({
           communityImages: data,
           indexVisible: true,
           showVisible: false,
-          editVisible: false
+          editVisible: false,
+          createVisible: false
         })
       })
       .catch((error)=>{
@@ -200,6 +327,39 @@ class CommunityBoard extends React.Component{
       .catch(error => console.log(error));
   }
 
+  handleCreate(image){
+    const updatedImages = this.state.communityImages
+    updatedImages.unshift(image);
+    this.setState({
+      communityImages: updatedImages
+    })
+  }
+
+  createImageSubmit(image){
+    console.log(image);
+    fetch('/community_boards', {
+      body: JSON.stringify(image),
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(createdImage=>{
+        return createdImage.json()
+      })
+      .then(jsonedImage=>{
+        this.handleCreate(jsonedImage)
+        this.setState({
+          indexVisible: true,
+          showVisible: false,
+          editVisible: false,
+          createVisible: false
+        })
+      })
+      .catch(error=>console.log(error))
+  }
+
   deleteImage(image, index){
     fetch("community_boards/" + image.id, {
       method: 'DELETE'
@@ -217,40 +377,68 @@ class CommunityBoard extends React.Component{
       })
   }
 
+  openCreate(){
+    this.setState({
+      indexVisible: false,
+      showVisible: false,
+      editVisible: false,
+      createVisible: true
+    })
+  }
+
   render(){
     return(
-      <div className="comm_board_container">
-        {
-          (this.state.communityImages && this.state.indexVisible)?
-            <CommunityImagesList
-              boardData={this.state.communityImages}
-              getCommunityImage={this.getCommunityImage}
-            />
-          :
-            ''
-        }
-        {
-          (this.state.showVisible)?
-            <CommunityImage
-              image={this.state.image}
-              showEditPage={this.showEditPage}
-              getCommunityImages={this.getCommunityImages}
-              deleteImage={this.deleteImage}
-              setState={this.setState}
-            />
-          :
-            ''
-        }
-        {
-          (this.state.editVisible)?
-            <EditImage
-              image={this.state.image}
-              editImage={this.editImage}
-              getCommunityImage={this.getCommunityImage}
-            />
-          :
-            ''
-        }
+      <div className="main">
+        <Header
+          openCreate={this.openCreate}
+          createVisible={this.state.createVisible}
+        />
+        <div className="comm_board_container">
+          {
+            (this.state.communityImages && this.state.indexVisible)?
+              <CommunityImagesList
+                boardData={this.state.communityImages}
+                getCommunityImage={this.getCommunityImage}
+              />
+            :
+              ''
+          }
+          {
+            (this.state.showVisible)?
+              <CommunityImage
+                image={this.state.image}
+                showEditPage={this.showEditPage}
+                getCommunityImages={this.getCommunityImages}
+                deleteImage={this.deleteImage}
+                setState={this.setState}
+              />
+            :
+              ''
+          }
+          {
+            (this.state.editVisible)?
+              <EditImage
+                image={this.state.image}
+                editImage={this.editImage}
+                getCommunityImage={this.getCommunityImage}
+              />
+            :
+              ''
+          }
+          {
+            (this.state.createVisible)?
+              <CreateImage
+                image={this.state.image}
+                createImage={this.createImage}
+                getCommunityImage={this.getCommunityImage}
+                createImageSubmit={this.createImageSubmit}
+                handleCreate={this.handleCreate}
+                getCommunityImages={this.getCommunityImages}
+              />
+            :
+              ''
+          }
+        </div>
       </div>
     )
   }
@@ -259,15 +447,12 @@ class CommunityBoard extends React.Component{
 class App extends React.Component{
   render(){
     return(
-      <div>
-        <Header />
         <CommunityBoard />
-      </div>
     )
   };
 };
 
 ReactDOM.render(
   <App />,
-  document.querySelector('.container')
+  document.querySelector('.main-container')
 )

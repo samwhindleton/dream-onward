@@ -1,6 +1,6 @@
 class Users
   # add attribute readers for instance access
-  attr_reader :id, :first_name, :last_name, :email, :username, :password
+  attr_reader :id, :first_name, :last_name, :email, :username, :password, :created, :updated
 
   # if heroku, use heroku psql db
   if (ENV['DATABASE_URL'])
@@ -21,6 +21,8 @@ class Users
     @email = opts["email"]
     @username = opts["username"]
     @password = opts["password"]
+    @created = opts["created"]
+    @updated = opts["updated"]
   end
 
   # ==========
@@ -30,7 +32,8 @@ class Users
   def self.all
     results = DB.exec(
       <<-SQL
-        SELECT * FROM users;
+        SELECT * FROM users
+        ORDER BY updated DESC;
       SQL
     )
 
@@ -45,7 +48,9 @@ class Users
         "last_name" => result["last_name"],
         "email" => result["email"],
         "username" => result["username"],
-        "password" => result["password"]
+        "password" => result["password"],
+        "created" => result["created"],
+        "updated" => result["updated"]
       })
       # push new_user to users array
       users.push(new_user)
@@ -78,7 +83,9 @@ class Users
         "last_name" => result["last_name"],
         "email" => result["email"],
         "username" => result["username"],
-        "password" => result["password"]
+        "password" => result["password"],
+        "created" => result["created"],
+        "updated" => result["updated"]
       })
       user = new_user
     end
@@ -94,9 +101,9 @@ class Users
   def self.create(opts)
     results = DB.exec(
       <<-SQL
-        INSERT INTO users (first_name, last_name, email, username, password)
-        VALUES ('#{opts["first_name"]}', '#{opts["last_name"]}', '#{opts["email"]}', '#{opts["username"]}', '#{opts["password"]}')
-        RETURNING id, first_name, last_name, email, username, password;
+        INSERT INTO users (first_name, last_name, email, username, password, created, updated)
+        VALUES ('#{opts["first_name"]}', '#{opts["last_name"]}', '#{opts["email"]}', '#{opts["username"]}', '#{opts["password"]}', 'now()', 'now()')
+        RETURNING id, first_name, last_name, email, username, password, created, updated;
       SQL
     )
     return Users.new(results.first)
@@ -129,9 +136,10 @@ class Users
           last_name = '#{opts["last_name"]}',
           email = '#{opts["email"]}',
           username = '#{opts["username"]}',
-          password = '#{opts["password"]}'
+          password = '#{opts["password"]}',
+          updated = 'now()}'
         WHERE id = #{id}
-        RETURNING id, first_name, last_name, email, username, password;
+        RETURNING id, first_name, last_name, email, username, password, created, updated;
       SQL
     )
     return Users.new(results.first)

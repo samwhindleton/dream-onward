@@ -1,6 +1,6 @@
 class UserBoards
   # add attribute readers for instance access
-  attr_reader :id, :user_id, :image, :description
+  attr_reader :id, :user_id, :image, :description, :created, :updated
 
   # if heroku, use heroku psql db
   if (ENV['DATABASE_URL'])
@@ -19,6 +19,8 @@ class UserBoards
     @user_id = opts["user_id"].to_i
     @image = opts["image"]
     @description = opts["description"]
+    @created = opts["created"]
+    @updated = opts["updated"]
   end
 
   # ==========
@@ -28,7 +30,8 @@ class UserBoards
   def self.all
     results = DB.exec(
       <<-SQL
-        SELECT * FROM user_boards;
+        SELECT * FROM user_boards
+        ORDER BY updated DESC;
       SQL
     )
 
@@ -41,7 +44,9 @@ class UserBoards
         "id" => result["id"],
         "user_id" => result["user_id"],
         "image" => result["image"],
-        "description" => result["description"]
+        "description" => result["description"],
+        "created" => result["created"],
+        "updated" => result["updated"]
       })
       # push new_user_board to user_boards array
       user_boards.push(new_user_board)
@@ -72,7 +77,9 @@ class UserBoards
         "id" => result["id"],
         "user_id" => result["user_id"],
         "image" => result["image"],
-        "description" => result["description"]
+        "description" => result["description"],
+        "created" => result["created"],
+        "updated" => result["updated"]
       })
       user_board = new_user_board
     end
@@ -88,9 +95,9 @@ class UserBoards
   def self.create(opts)
     results = DB.exec(
       <<-SQL
-        INSERT INTO user_boards (user_id, image, description)
-        VALUES ('#{opts["user_id"]}', '#{opts["image"]}', '#{opts["description"]}')
-        RETURNING id, user_id, image, description;
+        INSERT INTO user_boards (user_id, image, description, created, updated)
+        VALUES ('#{opts["user_id"]}', '#{opts["image"]}', '#{opts["description"]}', 'now()', 'now()')
+        RETURNING id, user_id, image, description, created, updated;
       SQL
     )
     return UserBoards.new(results.first)
@@ -121,9 +128,10 @@ class UserBoards
         SET
           user_id = '#{opts["user_id"]}',
           image = '#{opts["image"]}',
-          description = '#{opts["description"]}'
+          description = '#{opts["description"]}',
+          updated = 'now()}'
         WHERE id = #{id}
-        RETURNING id, user_id, image, description;
+        RETURNING id, user_id, image, description, created, updated;
       SQL
     )
     return UserBoards.new(results.first)
