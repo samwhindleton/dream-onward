@@ -184,6 +184,7 @@ class CreateImage extends React.Component{
   }
 }
 
+// index and functinos
 class CommunityBoard extends React.Component{
   constructor(props){
     super(props);
