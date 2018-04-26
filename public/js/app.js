@@ -40,7 +40,10 @@ class CommunityImage extends React.Component{
         <button onClick={()=>{
           this.props.showEditPage(this.props.image)
         }}>Edit</button>
-        <button>Back to List</button>
+        <button onClick={()=>this.props.deleteImage(this.props.image)}>Delete</button>
+        <button onClick={
+          this.props.getCommunityImages
+        }>Back to List</button>
       </div>
     )
   }
@@ -110,6 +113,7 @@ class EditImage extends React.Component{
           </div>
           <input type="submit" />
         </form>
+        <button onClick={()=>this.props.getCommunityImage(this.props.image)}>Cancel</button>
       </div>
     )
   }
@@ -128,6 +132,7 @@ class CommunityBoard extends React.Component{
     this.getCommunityImages = this.getCommunityImages.bind(this);
     this.getCommunityImage = this.getCommunityImage.bind(this);
     this.showEditPage = this.showEditPage.bind(this);
+    this.deleteImage = this.deleteImage.bind(this);
   }
 
   // runs getCommunityImages on load
@@ -143,7 +148,10 @@ class CommunityBoard extends React.Component{
       .then((data)=>{
         console.log(data);
         this.setState({
-          communityImages: data
+          communityImages: data,
+          indexVisible: true,
+          showVisible: false,
+          editVisible: false
         })
       })
       .catch((error)=>{
@@ -153,6 +161,7 @@ class CommunityBoard extends React.Component{
 
   // hide index, show image show component
   getCommunityImage(image){
+    console.log(image);
     this.setState({
       image: image,
       indexVisible: false,
@@ -191,6 +200,23 @@ class CommunityBoard extends React.Component{
       .catch(error => console.log(error));
   }
 
+  deleteImage(image, index){
+    fetch("community_boards/" + image.id, {
+      method: 'DELETE'
+    })
+      .then(data=>{
+        this.setState({
+          communityImages: [
+            ...this.state.communityImages.slice(0, index),
+            ...this.state.communityImages.slice(index + 1)
+          ]
+        })
+      })
+      .then(updatedCommunityImages=>{
+        this.getCommunityImages();
+      })
+  }
+
   render(){
     return(
       <div className="comm_board_container">
@@ -208,6 +234,9 @@ class CommunityBoard extends React.Component{
             <CommunityImage
               image={this.state.image}
               showEditPage={this.showEditPage}
+              getCommunityImages={this.getCommunityImages}
+              deleteImage={this.deleteImage}
+              setState={this.setState}
             />
           :
             ''
