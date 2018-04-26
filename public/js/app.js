@@ -2,8 +2,62 @@ class Header extends React.Component{
   render(){
     return(
       <header className="header">
-        <h1>Dream Onward</h1>
-        <h2>Paper-Free Dream Boards</h2>
+        {/* <h1>Dream Onward</h1>
+        <h2>Paper-Free Dream Boards</h2> */}
+        <section className="hero is-medium">
+          {/* head */}
+          <div className="hero-head">
+            <nav className="navbar">
+              <div className="container">
+                <div className="navbar-brand">
+                  <a className="navbar-item">
+                    <h1>Dream Onward</h1>
+                    {/* <img src="" alt="Logo"/> */}
+                  </a>
+                  <span className="navbar-burger burger" data-target="#navbarMenuHeroA">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </span>
+                </div>
+                <div id="navbarMenuHeroA" className="navbar-menu">
+                  <div className="navbar-end">
+                    <a className="navbar-item is-active">
+                      Home
+                    </a>
+                    <a className="navbar-item">
+                      About
+                    </a>
+                    <a className="navbar-item">
+                      Contact
+                    </a>
+                    <a className="navbar-item">
+                      Signup
+                    </a>
+                    <a className="navbar-item">
+                      Login
+                    </a>
+                    <a className="navbar-item">
+                      Profile
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </nav>
+          </div>
+
+          {/* content */}
+          <div className="hero-body">
+            <div className="container has-text-centered">
+              <h1 className="title">
+                Dream Onward
+              </h1>
+              <h2 className="subtitle">
+                Paper-Free Dream Boards
+              </h2>
+            </div>
+          </div>
+        </section>
       </header>
     )
   }
@@ -16,13 +70,15 @@ class CommunityImagesList extends React.Component{
       <div className="community_image_container">
         {this.props.boardData.map((image, index)=>{
           return(
-            <img
-              src={image.image}
-              alt={image.description}
-              onClick={()=>{
-                this.props.getCommunityImage(image);
-              }}
-            />
+            <div className="tile is-3">
+              <img
+                src={image.image}
+                alt={image.description}
+                onClick={()=>{
+                  this.props.getCommunityImage(image);
+                }}
+              />
+            </div>
           )
         })}
       </div>
@@ -259,7 +315,7 @@ class CommunityBoard extends React.Component{
 class App extends React.Component{
   render(){
     return(
-      <div>
+      <div className="app-container">
         <Header />
         <CommunityBoard />
       </div>
@@ -269,5 +325,5 @@ class App extends React.Component{
 
 ReactDOM.render(
   <App />,
-  document.querySelector('.container')
+  document.querySelector('.main-container')
 )
