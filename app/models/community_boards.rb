@@ -1,6 +1,6 @@
 class CommunityBoards
   # add attribute readers for instance access
-  attr_reader :id, :image, :description
+  attr_reader :id, :image, :description, :created, :updated
 
   # if heroku, use heroku psql db
   if (ENV['DATABASE_URL'])
@@ -18,6 +18,8 @@ class CommunityBoards
     @id = opts["id"].to_i
     @image = opts["image"]
     @description = opts["description"]
+    @created = opts["created"]
+    @updated = opts["updated"]
   end
 
   # ==========
@@ -27,7 +29,8 @@ class CommunityBoards
   def self.all
     results = DB.exec(
       <<-SQL
-        SELECT * FROM community_boards;
+        SELECT * FROM community_boards
+        ORDER BY updated DESC;
       SQL
     )
 
@@ -48,7 +51,9 @@ class CommunityBoards
       new_community_board = CommunityBoards.new({
         "id" => result["id"],
         "image" => result["image"],
-        "description" => result["description"]
+        "description" => result["description"],
+        "created" => result["created"],
+        "updated" => result["updated"]
       })
       # push new_community_board to community_boards array
       community_boards.push(new_community_board)
@@ -87,7 +92,9 @@ class CommunityBoards
       new_community_board = CommunityBoards.new({
         "id" => result["id"],
         "image" => result["image"],
-        "description" => result["description"]
+        "description" => result["description"],
+        "created" => result["created"],
+        "updated" => result["updated"]
       })
       community_board = new_community_board
     end
@@ -103,9 +110,9 @@ class CommunityBoards
   def self.create(opts)
     results = DB.exec(
       <<-SQL
-        INSERT INTO community_boards (image, description)
-        VALUES ('#{opts["image"]}', '#{opts["description"]}')
-        RETURNING id, image, description;
+        INSERT INTO community_boards (image, description, created, updated)
+        VALUES ('#{opts["image"]}', '#{opts["description"]}', 'now()', 'now()')
+        RETURNING id, image, description, created, updated;
       SQL
     )
     return CommunityBoards.new(results.first)
@@ -135,9 +142,10 @@ class CommunityBoards
         UPDATE community_boards
         SET
           image = '#{opts["image"]}',
-          description = '#{opts["description"]}'
+          description = '#{opts["description"]}',
+          updated = 'now()}'
         WHERE id = #{id}
-        RETURNING id, image, description;
+        RETURNING id, image, description, created, updated;
       SQL
     )
     return CommunityBoards.new(results.first)
