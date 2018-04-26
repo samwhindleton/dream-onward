@@ -46,10 +46,12 @@ class CommunityImage extends React.Component{
   }
 }
 
+// edit image form
 class EditImage extends React.Component{
   constructor(props){
     super(props);
     this.state = ({
+      id: 0,
       image: '',
       description: ''
     });
@@ -60,6 +62,7 @@ class EditImage extends React.Component{
   componentDidMount(){
     if(this.props.image){
       this.setState({
+        id: this.props.image.id,
         image: this.props.image.image,
         description: this.props.image.description
       })
@@ -153,7 +156,8 @@ class CommunityBoard extends React.Component{
     this.setState({
       image: image,
       indexVisible: false,
-      showVisible: true
+      showVisible: true,
+      editVisible: false
     })
   }
 
@@ -166,8 +170,25 @@ class CommunityBoard extends React.Component{
     console.log(this.state.image);
   }
 
+  // edit image in the db and return to the updated show page for the image
   editImage(image){
-    console.log('incepted edit', image);
+    // console.log('incepted edit', image);
+    fetch('/community_boards/' + image.id, {
+      body: JSON.stringify(image),
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(updatedImage => {
+        return updatedImage.json()
+      })
+      .then(jsonedImage => {
+        console.log(jsonedImage);
+        this.getCommunityImage(jsonedImage);
+      })
+      .catch(error => console.log(error));
   }
 
   render(){
@@ -196,6 +217,7 @@ class CommunityBoard extends React.Component{
             <EditImage
               image={this.state.image}
               editImage={this.editImage}
+              getCommunityImage={this.getCommunityImage}
             />
           :
             ''
