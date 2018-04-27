@@ -445,9 +445,30 @@ class CommunityBoard extends React.Component{
 }
 
 class App extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = ({
+      communityBoardVisible: false,
+      userBoardsVisible: true
+    })
+  }
+
   render(){
     return(
-        <CommunityBoard />
+      <div>
+      {
+        this.state.communityBoardVisible?
+          <CommunityBoard />
+        :
+          ''
+      }
+      {
+        this.state.userBoardsVisible?
+          <UserBoards />
+        :
+          ''
+      }
+      </div>
     )
   };
 };
