@@ -48,6 +48,7 @@ class UserBoards
         "created" => result["created"],
         "updated" => result["updated"]
       })
+
       # push new_user_board to user_boards array
       user_boards.push(new_user_board)
     end
@@ -81,6 +82,7 @@ class UserBoards
         "created" => result["created"],
         "updated" => result["updated"]
       })
+
       user_board = new_user_board
     end
 
@@ -100,6 +102,7 @@ class UserBoards
         RETURNING id, user_id, image, description, created, updated;
       SQL
     )
+
     return UserBoards.new(results.first)
   end
 
@@ -114,6 +117,7 @@ class UserBoards
         WHERE id = #{id};
       SQL
     )
+
     return {deleted: true}
   end
 
@@ -134,6 +138,7 @@ class UserBoards
         RETURNING id, user_id, image, description, created, updated;
       SQL
     )
+
     return UserBoards.new(results.first)
   end
 end

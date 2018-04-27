@@ -34,15 +34,6 @@ class CommunityBoards
       SQL
     )
 
-    # # 23 April 2018
-    # return results.map do |result|
-    #   CommunityBoardImage.new({
-    #     "id" => result["id"],
-    #     "image" => result["image"],
-    #     "description" => result["description"]
-    #   })
-    # end
-
     # empty array, stores converted results
     community_boards = []
 
@@ -55,6 +46,7 @@ class CommunityBoards
         "created" => result["created"],
         "updated" => result["updated"]
       })
+
       # push new_community_board to community_boards array
       community_boards.push(new_community_board)
     end
@@ -74,15 +66,6 @@ class CommunityBoards
         WHERE id = #{id};
       SQL
     )
-
-    # # 23 April 2018
-    # return results.map do |result|
-    #   CommunityBoardImage.new({
-    #     "id" => result["id"],
-    #     "image" => result["image"],
-    #     "description" => result["description"]
-    #   })
-    # end
 
     # null community_board
     community_board = nil
@@ -115,6 +98,7 @@ class CommunityBoards
         RETURNING id, image, description, created, updated;
       SQL
     )
+
     return CommunityBoards.new(results.first)
   end
 
@@ -129,6 +113,7 @@ class CommunityBoards
         WHERE id = #{id};
       SQL
     )
+
     return {deleted: true}
   end
 
@@ -148,7 +133,7 @@ class CommunityBoards
         RETURNING id, image, description, created, updated;
       SQL
     )
+
     return CommunityBoards.new(results.first)
   end
-
 end
