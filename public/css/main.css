@@ -49,6 +49,13 @@ html {
   overflow-x: hidden;
 }
 
+body {
+  background: var(--night);
+  background: -webkit-linear-gradient(180deg, var(--night), var(--dream) 150%);
+  background: -o-linear-gradient(180deg, var(--night), var(--dream) 150%);
+  background: linear-gradient(180deg, var(--night), var(--dream) 150%);
+}
+
 /* main container of website */
 .main-container {
   min-height: 100vh:
@@ -61,16 +68,23 @@ header style
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 .header {
-  background: var(--night);
-  background: linear-gradient(180deg, var(--night), var(--dream) 150%);
+  background: var(--dream);
 }
 
-.hero-head {
+nav.navbar.is-fixed-top, .hero-head {
   background: var(--night);
 }
 
 .navbar-brand h1, h1.title {
   color: var(--glow);
+}
+
+.navbar-brand h1 {
+  font-weight: 800;
+}
+
+.hero-body {
+  margin-top: 56px;
 }
 
 a.navbar-item.is-active, h2.subtitle {

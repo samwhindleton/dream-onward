@@ -2,25 +2,26 @@ class Header extends React.Component{
   render(){
     return(
       <header className="header">
-        {/* <h1>Dream Onward</h1>
-        <h2>Paper-Free Dream Boards</h2> */}
         <section className="hero is-medium">
           {/* head */}
           <div className="hero-head">
-            <nav className="navbar">
+            <nav className="navbar is-fixed-top">
               <div className="container">
                 <div className="navbar-brand">
-                  <a className="navbar-item">
-                    <h1>Dream Onward</h1>
-                    {/* <img src="" alt="Logo"/> */}
-                  </a>
-                  <span className="navbar-burger burger" data-target="#navbarMenuHeroA">
-                    <span></span>
-                    <span></span>
-                    <span></span>
+                  <h1 className="navbar-item">Dream Onward</h1>
+                  <span
+                    className="navBurgerToggle navbar-burger burger"
+                    aria-expanded="false"
+                    aria-label="menu"
+                    // data-target="navbarMenuHeroA"
+                    role="button"
+                  >
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
                   </span>
                 </div>
-                <div id="navbarMenuHeroA" className="navbar-menu">
+                <div id="navBurgerToggleMenu" className="navbar-menu">
                   <div className="navbar-end">
                     <a className="navbar-item is-active">
                       Home
