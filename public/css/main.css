@@ -45,15 +45,9 @@ main style
 }
 
 html {
+  background: var(--dream);
   height: 100%;
   overflow-x: hidden;
-}
-
-body {
-  background: var(--night);
-  background: -webkit-linear-gradient(180deg, var(--night), var(--dream) 150%);
-  background: -o-linear-gradient(180deg, var(--night), var(--dream) 150%);
-  background: linear-gradient(180deg, var(--night), var(--dream) 150%);
 }
 
 /* main container of website */
@@ -69,6 +63,9 @@ header style
 
 .header {
   background: var(--dream);
+  background: -webkit-linear-gradient(180deg, var(--night), var(--dream) 150%);
+  background: -o-linear-gradient(180deg, var(--night), var(--dream) 150%);
+  background: linear-gradient(180deg, var(--night), var(--dream) 150%);
 }
 
 nav.navbar.is-fixed-top, .hero-head {

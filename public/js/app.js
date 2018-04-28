@@ -389,7 +389,7 @@ class CommunityBoard extends React.Component{
 
   render(){
     return(
-      <div className="main">
+      <div className="landing-container">
         <Header
           openCreate={this.openCreate}
           createVisible={this.state.createVisible}
@@ -446,9 +446,30 @@ class CommunityBoard extends React.Component{
 }
 
 class App extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = ({
+      communityBoardVisible: true,
+      userBoardsVisible: false
+    });
+  }
+
   render(){
     return(
-        <CommunityBoard />
+      <div className="app-container">
+      {
+        this.state.communityBoardVisible?
+          <CommunityBoard />
+        :
+          ''
+      }
+      {
+        this.state.userBoardsVisible?
+          <UserBoards />
+        :
+          ''
+      }
+      </div>
     )
   };
 };
