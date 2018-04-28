@@ -1,6 +1,6 @@
 class Users
   # add attribute readers for instance access
-  attr_reader :id, :first_name, :last_name, :email, :username, :password, :created, :updated
+  attr_reader :id, :first_name, :last_name, :email, :username, :password, :created, :updated, :images
 
   # if heroku, use heroku psql db
   if (ENV['DATABASE_URL'])
@@ -23,6 +23,10 @@ class Users
     @password = opts["password"]
     @created = opts["created"]
     @updated = opts["updated"]
+    #if images is in opts hash, show it
+    if opts["images"]
+      @images = opts["images"]
+    end
   end
 
   # ==========
@@ -32,28 +36,65 @@ class Users
   def self.all
     results = DB.exec(
       <<-SQL
-        SELECT * FROM users
-        ORDER BY updated DESC;
+        SELECT
+          users.*,
+          user_boards.id AS image_id,
+          user_boards.user_id AS image_user_id,
+          user_boards.image AS image,
+          user_boards.description AS image_description,
+          user_boards.created AS image_created,
+          user_boards.updated AS image_updated
+        FROM users
+        LEFT JOIN user_boards
+          ON users.id = user_boards.user_id
+        ORDER BY users.id ASC;
       SQL
     )
 
-    # empty array, stores converted results
+    # empty users array, stores converted results
     users = []
 
-    # for each result, create a new_user
+    # keeps track of previously created user and image ids
+    last_user_id = nil
+    last_image_id = nil
+
+    # for each result
     results.each do |result|
-      new_user = Users.new({
-        "id" => result["id"],
-        "first_name" => result["first_name"],
-        "last_name" => result["last_name"],
-        "email" => result["email"],
-        "username" => result["username"],
-        "password" => result["password"],
-        "created" => result["created"],
-        "updated" => result["updated"]
-      })
-      # push new_user to users array
-      users.push(new_user)
+      # create a new_user
+      if result["id"] != last_user_id
+        new_user = Users.new({
+          "id" => result["id"],
+          "first_name" => result["first_name"],
+          "last_name" => result["last_name"],
+          "email" => result["email"],
+          "username" => result["username"],
+          "password" => result["password"],
+          "created" => result["created"],
+          "updated" => result["updated"],
+          "images" => []
+        })
+
+        # push new_user to users array
+        users.push(new_user)
+
+        last_user_id = result["id"]
+      end
+
+      # create a new_user_image
+      if result["image_id"] != last_image_id
+        new_user_image = UserBoards.new({
+          "id" => result["image_id"],
+          "user_id" => result["image_user_id"],
+          "image" => result["image"],
+          "description" => result["image_description"],
+          "created" => result["image_created"],
+          "updated" => result["image_updated"]
+        })
+
+        # push new_user_image to the last users images array
+        users.last.images.push(new_user_image)
+        last_image_id = result["image_id"]
+      end
     end
 
     # return users array
@@ -67,28 +108,60 @@ class Users
   def self.find(id)
     results = DB.exec(
       <<-SQL
-        SELECT * FROM users
-        WHERE id = #{id};
+        SELECT
+          users.*,
+          user_boards.id AS image_id,
+          user_boards.user_id AS image_user_id,
+          user_boards.image AS image,
+          user_boards.description AS image_description,
+          user_boards.created AS image_created,
+          user_boards.updated AS image_updated
+        FROM users
+        LEFT JOIN user_boards
+          ON users.id = user_boards.user_id
+        WHERE users.id = #{id}
+        -- sort user images by updated timestamp, by newly updated
+        ORDER BY user_boards.updated DESC;
       SQL
     )
 
-    # null user
-    user = nil
+    # empty images array, stores converted results
+    images = []
+
+    # keeps track of previously created image id
+    last_image_id = nil
 
     # for each result, create a new_user
     results.each do |result|
-      new_user = Users.new({
-        "id" => result["id"],
-        "first_name" => result["first_name"],
-        "last_name" => result["last_name"],
-        "email" => result["email"],
-        "username" => result["username"],
-        "password" => result["password"],
-        "created" => result["created"],
-        "updated" => result["updated"]
-      })
-      user = new_user
+      if result["image_id"] != last_image_id
+        new_user_image = UserBoards.new({
+          "id" => result["image_id"],
+          "user_id" => result["image_user_id"],
+          "image" => result["image"],
+          "description" => result["image_description"],
+          "created" => result["image_created"],
+          "updated" => result["image_updated"]
+        })
+
+        images.push(new_user_image)
+        last_image_id = result["image_id"]
+      end
     end
+
+    # query result for user
+    result = results.first
+
+    user = Users.new({
+      "id" => result["id"],
+      "first_name" => result["first_name"],
+      "last_name" => result["last_name"],
+      "email" => result["email"],
+      "username" => result["username"],
+      "password" => result["password"],
+      "created" => result["created"],
+      "updated" => result["updated"],
+      "images" => images
+    })
 
     # return user
     return user
@@ -120,6 +193,7 @@ class Users
         WHERE id = #{id};
       SQL
     )
+
     return {deleted: true}
   end
 
@@ -142,6 +216,7 @@ class Users
         RETURNING id, first_name, last_name, email, username, password, created, updated;
       SQL
     )
+
     return Users.new(results.first)
   end
 end
