@@ -1,3 +1,4 @@
+// List users on the users visible page
 class UsersList extends React.Component{
   render(){
     return(
@@ -19,6 +20,8 @@ class UsersList extends React.Component{
   }
 }
 
+
+// user board page - one per user, multiple images per board
 class UserBoard extends React.Component{
   render(){
     console.log(this.props.user);
@@ -40,6 +43,7 @@ class UserBoard extends React.Component{
   }
 }
 
+// user boards pages
 class UserBoards extends React.Component{
   constructor(props){
     super(props);
@@ -53,10 +57,12 @@ class UserBoards extends React.Component{
     this.getUserBoard = this.getUserBoard.bind(this);
   }
 
+  // load user images on page load
   componentDidMount(){
     this.getUsers();
   }
 
+  // fetch users from database
   getUsers(){
     fetch("/users")
       .then((response)=>response.json())
@@ -71,6 +77,7 @@ class UserBoards extends React.Component{
       })
   }
 
+  // set states to show single user's board
   getUserBoard(user){
     // console.log(user);
     this.setState({
