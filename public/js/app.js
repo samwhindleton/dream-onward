@@ -8,6 +8,7 @@ class App extends React.Component{
     });
     this.switchToIndex = this.switchToIndex.bind(this);
     this.switchToUserBoardsView = this.switchToUserBoardsView.bind(this);
+    this.toggleHeader = this.toggleHeader.bind(this);
   }
 
   switchToIndex(){
@@ -30,6 +31,16 @@ class App extends React.Component{
     ('')
   }
 
+  toggleHeader(){
+    (this.state.headerVisible) ?
+    (this.setState({
+      headerVisible: false
+    })) :
+    (this.setState({
+      headerVisible: true
+    }))
+  }
+
   render(){
     return(
       <div className="app-container">
@@ -38,7 +49,11 @@ class App extends React.Component{
           switchToIndex={this.switchToIndex}
         />
         {this.state.headerVisible ? <Header/> : ''}
-        {this.state.communityBoardVisible ? <CommunityBoard/> : ''}
+        {this.state.communityBoardVisible ?
+          <CommunityBoard
+            toggleHeader={this.toggleHeader}
+          /> :
+        ''}
         {this.state.userBoardsVisible ? <UserBoards/> : ''}
         <Footer/>
       </div>

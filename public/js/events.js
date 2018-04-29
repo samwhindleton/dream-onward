@@ -1,5 +1,5 @@
 $().ready(() => {
-  console.log($);
+  // console.log($);
   // hamburger
   const $navToggle = $(".navBurgerToggle");
   // navbar menu
