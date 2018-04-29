@@ -3,7 +3,7 @@ class UserBoard extends React.Component{
     console.log(this.props.user);
     return(
       <div className="user_board">
-        <h1>{this.props.user.first_name}'s Dream Board</h1>
+        <h1>{this.props.user.first_name}&#39;s Dream Board</h1>
           <div className="community_image_container">
             {this.props.user.images.map((image, index)=>{
               return(
