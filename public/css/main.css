@@ -75,7 +75,8 @@ header style
   background: linear-gradient(180deg, var(--night), var(--dream) 150%);
 }
 
-nav.navbar.is-fixed-top, .hero-head {
+
+nav.navbar.is-fixed-top, .hero-head, .navbar-menu {
   background: var(--night);
 }
 
@@ -95,8 +96,17 @@ a.navbar-item.is-active, h2.subtitle {
   color: var(--golden);
 }
 
+a.navbar-item.is-active {
+  background: transparent;
+}
+
 .navbar-item {
   color: var(--fade);
+}
+
+a.navbar-item:hover {
+  background: var(--glow);
+  color: var(--night);
 }
 
 h1.title {
@@ -138,7 +148,7 @@ button.add-dream:hover {
   transition-duration: 600ms;
 }
 
-.community_image_container {
+.community_image_container, .username-list {
   display: flex;
   flex-wrap: wrap;
 }
@@ -159,7 +169,7 @@ button.add-dream:hover {
   transition-duration-duration: 1200ms;
 }
 
-.community_image_container > div > img:hover {
+.community_image_container > div > img:hover, .user:hover {
   cursor: pointer;
   -moz-transform: scale(1.1);
   -ms-transform: scale(1.1);
@@ -171,6 +181,196 @@ button.add-dream:hover {
   -webkit-transition-duration: 600ms;
   transition-duration: 600ms;
 }
+
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+community create page/form style
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+.comm_image_create_container {
+  min-height: calc(100vh - 52px);
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+form {
+  background: var(--night);
+  border: 1px solid var(--fade);
+  margin: 5em 0;
+  padding: 5em 2em;
+  width: 96%;
+}
+
+.comm_image_create_container > form > div > h1, .comm_image_edit_container > form > div > h1 {
+  color: var(--glow);
+  font-size: 2em;
+  font-weight: 600;
+  margin-bottom: 1em;
+  text-align: center;
+}
+
+.label {
+  color: var(--glow);
+}
+
+input {
+  font-weight: 600;
+  margin-bottom: 1em;
+}
+
+.button {
+  border-color: var(--glow);
+  font-weight: 600;
+  width: 45%;
+}
+
+.submit-button {
+  background: var(--glow);
+  color: var(--night);
+}
+
+.submit-button:hover {
+  border-color: var(--golden);
+}
+
+.cancel-button {
+  background: var(--night);
+  color: var(--glow);
+  margin-left: 10%;
+}
+
+.cancel-button:hover {
+  color: var(--glow);
+  border-color: var(--golden);
+}
+
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+community show pagem style
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+.comm_board_show {
+  min-height: 100vh;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.comm_board_show h1 {
+  color: var(--glow);
+  font-size: 3em;
+  font-weight: 600;
+  padding: 1em 0;
+  text-align: center;
+}
+
+.comm_board_show img {
+  margin-bottom: 3em;
+  object-fit: cover;
+  object-position: 50% 50%;
+  height: 90vw;
+  width: 90vw;
+}
+
+.comm_board_show .button {
+  background: var(--glow);
+  color: var(--night);
+  border-color: var(--night);
+  font-weight: 600;
+  width: 50%;
+}
+
+.comm_board_show .button:hover {
+  border-color: var(--glow);
+}
+
+.comm_board_show .button:nth-child(2n+0) {
+  background: var(--dream);
+  color: var(--night);
+  border-color: var(--night);
+  margin: 1em 0;
+}
+
+.comm_board_show .button:nth-child(2n+0):hover {
+  border-color: var(--dream);
+}
+
+.comm_board_show .button:last-child {
+  margin-bottom: 3em;
+  background: var(--night);
+  color: var(--glow);
+  border-color: var(--glow);
+}
+
+.comm_board_show .button:last-child:hover {
+  border-color: var(--night);
+}
+
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+community image edit style
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+.comm_image_edit_container {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  min-height: calc(100vh - 52px);
+}
+
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+users list style
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+.users_list_container, .user_board {
+  min-height: calc(100vh - 52px);
+}
+
+.users_list_container > h1, .user_board > h1 {
+  color: var(--glow);
+  font-size: 3em;
+  font-weight: 600;
+  padding: 1em 0;
+  text-align: center;
+}
+
+.user {
+  align-items: center;
+  justify-content: center;
+  height: 9em;
+  -moz-transition-duration: 1200ms;
+  -o-transition-duration: 1200ms;
+  -webkit-transition-duration: 1200ms;
+  transition-duration-duration: 1200ms;
+}
+
+.user:nth-child(odd) {
+  background: var(--glow);
+  color: var(--night);
+  border: 1px solid var(--night);
+}
+
+.user:nth-child(even) {
+  background: var(--night);
+  color: var(--glow);
+  border: 1px solid var(--glow);
+}
+
+.user h3 {
+  font-size: 1.6em;
+  text-align: center;
+  font-weight: 600;
+  width: 100%;
+}
+
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+user board style
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+
 
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -215,6 +415,20 @@ media queries style
   .tile.is-3 {
     width: 50%;
   }
+  /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  community create page/form style
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+  form {
+    padding: 5em 3em;
+    width: 80%;
+  }
+  /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  community show pagem style
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+  .comm_board_show img {
+    height: 60vw;
+    width: 60vw;
+  }
 }
 
 /* tablet */
@@ -239,6 +453,20 @@ media queries style
   .tile.is-3 {
     width: 33.33333%;
   }
+  /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  community create page/form style
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+  form {
+    padding: 5em 3.4em;
+    width: 70%;
+  }
+  /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  community show pagem style
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+  .comm_board_show img {
+    height: 50vw;
+    width: 50vw;
+  }
 }
 
 /* desktop */
@@ -249,12 +477,26 @@ media queries style
   .tile.is-3 {
     width: 25%;
   }
+  /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  community create page/form style
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+  form {
+    padding: 5em 4em;
+    width: 60%;
+  }
 }
 
 /* widescreen */
 @media screen and (min-width: 1280px) {
   .tile.is-3 {
     width: 16.66667%;
+  }
+  /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  community create page/form style
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+  form {
+    padding: 5em 5em;
+    width: 50%;
   }
 }
 
