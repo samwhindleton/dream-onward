@@ -1,3 +1,4 @@
+// List users on the users visible page
 class UsersList extends React.Component{
   render(){
     return(

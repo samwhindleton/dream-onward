@@ -1,3 +1,4 @@
+// user boards pages
 class UserBoards extends React.Component{
   constructor(props){
     super(props);
@@ -11,10 +12,12 @@ class UserBoards extends React.Component{
     this.getUserBoard = this.getUserBoard.bind(this);
   }
 
+  // load user images on page load
   componentDidMount(){
     this.getUsers();
   }
 
+  // fetch users from database
   getUsers(){
     fetch("/users")
       .then((response)=>response.json())
@@ -29,6 +32,7 @@ class UserBoards extends React.Component{
       })
   }
 
+  // set states to show single user's board
   getUserBoard(user){
     // console.log(user);
     this.setState({
