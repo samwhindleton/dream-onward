@@ -9,6 +9,7 @@ class EditImage extends React.Component{
     });
     this.getInputs = this.getInputs.bind(this);
     this.editImageSubmit = this.editImageSubmit.bind(this);
+    this.cancelButton = this.cancelButton.bind(this);
   }
 
   componentDidMount(){
@@ -32,6 +33,15 @@ class EditImage extends React.Component{
     event.preventDefault();
     // console.log('edit image');
     this.props.editImage(this.state)
+    this.props.toggleHeader()
+  }
+
+  // cancel button, gets image and toggle header
+  cancelButton(){
+    this.props.getCommunityImage(this.props.image);
+    setTimeout(() => {
+      this.props.toggleHeader();
+    }, 1);
   }
 
   render(){
@@ -39,6 +49,7 @@ class EditImage extends React.Component{
       <div className="comm_image_edit_container">
         <form onSubmit={this.editImageSubmit}>
           <div>
+            <h1>Edit Image</h1>
             <label className="label" for="image">Image URL:</label>
             <input
               className="input"
@@ -47,6 +58,7 @@ class EditImage extends React.Component{
               id="image"
               onChange={this.getInputs}
               value={this.state.image}
+              required
             />
           </div>
           <div>
@@ -56,13 +68,24 @@ class EditImage extends React.Component{
               type="text"
               name="description"
               id="description"
+              maxlength="32"
               onChange={this.getInputs}
               value={this.state.description}
+              required
             />
           </div>
-          <input type="submit" />
+          <input
+            type="submit"
+            className="button submit-button"
+          />
+          <button
+            type="button"
+            className="button cancel-button"
+            onClick={()=>this.cancelButton()}
+          >
+            Cancel
+          </button>
         </form>
-        <button onClick={()=>this.props.getCommunityImage(this.props.image)}>Cancel</button>
       </div>
     )
   }

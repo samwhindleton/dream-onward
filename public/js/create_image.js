@@ -9,6 +9,7 @@ class CreateImage extends React.Component{
     });
     this.getInputs = this.getInputs.bind(this);
     this.createSubmit = this.createSubmit.bind(this);
+    this.cancelButton = this.cancelButton.bind(this);
   }
 
   getInputs(event){
@@ -21,6 +22,12 @@ class CreateImage extends React.Component{
   createSubmit(event){
     event.preventDefault();
     this.props.createImageSubmit(this.state);
+    this.props.toggleHeader();
+  }
+
+  cancelButton(){
+    this.props.getCommunityImages();
+    this.props.toggleHeader();
   }
 
   render(){
@@ -28,14 +35,17 @@ class CreateImage extends React.Component{
       <div className="comm_image_create_container">
         <form onSubmit={this.createSubmit}>
           <div>
+            <h1>Add a Dream!</h1>
             <label className="label" for="image">Image URL:</label>
             <input
               className="input"
               type="URL"
               name="image"
               id="image"
+              placeholder="https://i.imgur.com/wg0XlFt.jpg"
               onChange={this.getInputs}
               value={this.state.image}
+              required
             />
           </div>
           <div>
@@ -45,13 +55,25 @@ class CreateImage extends React.Component{
               type="text"
               name="description"
               id="description"
+              placeholder="Adopt a Husky"
+              maxlength="32"
               onChange={this.getInputs}
               value={this.state.description}
+              required
             />
           </div>
-          <input type="submit" />
+          <input
+            type="submit"
+            className="button submit-button"
+          />
+          <button
+            type="button"
+            className="button cancel-button"
+            onClick={this.cancelButton}
+          >
+            Cancel
+          </button>
         </form>
-        <button onClick={()=>this.props.getCommunityImages()}>Cancel</button>
       </div>
     )
   }
