@@ -53,6 +53,7 @@ class CommunityBoard extends React.Component{
       showVisible: true,
       editVisible: false
     })
+    this.props.toggleHeader()
   }
 
   // show edit component
@@ -133,6 +134,7 @@ class CommunityBoard extends React.Component{
       .then(updatedCommunityImages=>{
         this.getCommunityImages();
       })
+    this.props.toggleHeader();
   }
 
   openCreate(){
@@ -142,6 +144,7 @@ class CommunityBoard extends React.Component{
       editVisible: false,
       createVisible: true
     })
+    this.props.toggleHeader();
   }
 
   render(){
@@ -151,15 +154,22 @@ class CommunityBoard extends React.Component{
           openCreate={this.openCreate}
           createVisible={this.state.createVisible}
         /> */}
-        <button className="add-dream" onClick={this.openCreate}>
-          Add a Dream!
-        </button>
+        {
+          (this.state.createVisible || this.state.showVisible || this.state.editVisible) ?
+          ('') :
+          (
+            <button className="add-dream" onClick={this.openCreate}>
+              Add a Dream!
+            </button>
+          )
+        }
         <div className="comm_board_container">
           {
             (this.state.communityImages && this.state.indexVisible)?
               <CommunityImagesList
                 boardData={this.state.communityImages}
                 getCommunityImage={this.getCommunityImage}
+                toggleHeader={this.props.toggleHeader}
               />
             :
               ''
@@ -172,6 +182,7 @@ class CommunityBoard extends React.Component{
                 getCommunityImages={this.getCommunityImages}
                 deleteImage={this.deleteImage}
                 setState={this.setState}
+                toggleHeader={this.props.toggleHeader}
               />
             :
               ''
@@ -182,6 +193,7 @@ class CommunityBoard extends React.Component{
                 image={this.state.image}
                 editImage={this.editImage}
                 getCommunityImage={this.getCommunityImage}
+                toggleHeader={this.props.toggleHeader}
               />
             :
               ''
@@ -195,6 +207,7 @@ class CommunityBoard extends React.Component{
                 createImageSubmit={this.createImageSubmit}
                 handleCreate={this.handleCreate}
                 getCommunityImages={this.getCommunityImages}
+                toggleHeader={this.props.toggleHeader}
               />
             :
               ''
