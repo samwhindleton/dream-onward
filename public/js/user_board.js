@@ -1,3 +1,4 @@
+// user board page - one per user, multiple images per board
 class UserBoard extends React.Component{
   render(){
     console.log(this.props.user);
