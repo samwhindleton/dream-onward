@@ -1,54 +1,19 @@
-class CreateBoardForm extends React.Component{
-    render(){
-        return(
-            <div className="user_create_form">
-                <form>
-                    <div>
-                        <label className="label" for="image">Image URL:</label>
-                        <input
-                            className="input"
-                            type="URL"
-                            name="image"
-                            id="image"
-                            />
-                    </div>
-                    <div>
-                        <label className="label" for="description">Description:</label>
-                        <input
-                            className="input"
-                            type="text"
-                            name="description"
-                            id="description"
-                            />
-                    </div>
-                    <input type="submit"/>
-                </form>
-                <button onClick={this.props.toggleCreate}>Cancel</button>
-            </div>
-        )
-    }
-}
-
 // user board page - one per user, multiple images per board
 class UserBoard extends React.Component{
   constructor(props){
-      super(props)
-      this.state={
-          userImages: [],
-          image: '',
-          editVisible: false,
-          createVisible: false,
-          userBoard: true,
-      }
-      this.toggleCreate = this.toggleCreate.bind(this);
-  }
-
-  createNewBoard(image){
-      const addImage = this.state.userImages
-      userImages.unshift(image)
-      this.setState({
-          userImages: addImage
-      })
+    super(props)
+    this.state={
+      image: '',
+      createVisible: false,
+      editVisible: false,
+      showVisible: false,
+      userBoard: true,
+      user: this.props.user,
+      id: this.props.user.id,
+      username: this.props.user.username
+    }
+    this.toggleCreate = this.toggleCreate.bind(this);
+    this.getUserImage = this.getUserImage.bind(this);
   }
 
   createImageSubmit(image){
@@ -65,13 +30,27 @@ class UserBoard extends React.Component{
         return createdImage.json()
       })
       .then(jsonedImage=>{
-        this.createNewBoard(jsonedImage)
-        // this.setState({
-        //   editVisible: false,
-        //   createVisible: false
-        // })
+        // this.handleCreate(jsonedImage);
+        this.toggleCreate();
       })
       .catch(error=>console.log(error))
+  }
+
+  // hide index, show image show component
+  getUserImage(image){
+    console.log(image);
+    if (this.state.showVisible == false) {
+      this.setState({
+        image: image,
+        userBoard: false,
+        showVisible: true
+      })
+    } else {
+      this.setState({
+        userBoard: true,
+        showVisible: false
+      })
+    }
   }
 
   toggleCreate(){
@@ -89,27 +68,67 @@ class UserBoard extends React.Component{
   }
 
   render(){
-    console.log(this.props.user);
+    // console.log(this.props.user);
     return(
       <div className="user_board">
         <h1>{this.props.user.first_name}&#39;s Dream Board</h1>
-          <div className="community_image_container">
-            {this.props.user.images.map((image, index)=>{
-              return(
-                <div class="user_board_images tile is-3">
-                  <img
-                    src={image.image}
-                    alt={image.description}
-                  />
-                  <button onClick={this.props.returnToUserList}>Return to Users</button>
-                  <button onClick={this.toggleCreate}>Create New Board</button>
-                        {this.state.createVisible ? <CreateBoardForm toggleCreate={this.toggleCreate} createNewBoard={this.createNewBoard} createImageSubmit={this.createImageSubmit}/> : ''}
-                  <button>Edit Image</button>
-                  <button>Delete Image</button>
-                </div>
-              )
-            })}
-          </div>
+
+        {
+          (this.state.createVisible || this.state.showVisible) ?
+          ('') :
+          (
+            <div>
+              {
+                (this.state.createVisible) ?
+                ('') :
+                (
+                  <button
+                    className="add-dream"
+                    onClick={this.toggleCreate}
+                    user={this.props.user}
+                  >
+                    Add a Dream!
+                  </button>
+                )
+              }
+              <div className="community_image_container">
+                {this.props.user.images.map((image, index)=>{
+                  return(
+                    <div class="user_board_images tile is-3">
+                      <img
+                        src={image.image}
+                        alt={image.description}
+                        onClick={()=>{
+                          this.getUserImage(image);
+                        }}
+                      />
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          )
+        }
+
+        {/* add/create image to dream board */}
+        {this.state.createVisible ?
+          <CreateBoardForm
+            id={this.state.id}
+            username={this.state.username}
+            createImageSubmit={this.createImageSubmit}
+            toggleCreate={this.toggleCreate}
+          /> :
+        ''}
+
+        {/* show image */}
+        {this.state.showVisible ?
+          <UserImage
+            id={this.state.id}
+            image={this.state.image}
+            username={this.state.username}
+            getUserImage={this.getUserImage}
+          /> :
+        ''}
       </div>
     )
   }
