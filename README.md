@@ -41,10 +41,14 @@ JS
 
 ---
 
-### Resources
-
----
-
 ### Project Setup / Steps
 
 [Deploy your rails and psql app on heroku guide.](https://github.com/samwhindleton/dream-onward/blob/master/deploy-rails-psql-app-on-heroku-guide.md)
+
+---
+
+### Future Enhancements
+
+-Authentication and sessions
+-Fully-functional navbar
+-Full CRUD on user boards
