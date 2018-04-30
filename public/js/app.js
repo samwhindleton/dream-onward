@@ -4,10 +4,12 @@ class App extends React.Component{
     this.state = ({
       headerVisible: true,
       communityBoardVisible: true,
-      userBoardsVisible: false
+      userBoardsVisible: false,
+      aboutVisible: false
     });
     this.switchToIndex = this.switchToIndex.bind(this);
     this.switchToUserBoardsView = this.switchToUserBoardsView.bind(this);
+    this.switchToAbout = this.switchToAbout.bind(this);
     this.toggleHeader = this.toggleHeader.bind(this);
   }
 
@@ -16,7 +18,8 @@ class App extends React.Component{
     (this.setState({
       headerVisible: true,
       communityBoardVisible: true,
-      userBoardsVisible: false
+      userBoardsVisible: false,
+      aboutVisible: false
     })) :
     ('')
   }
@@ -26,9 +29,19 @@ class App extends React.Component{
     (this.setState({
       headerVisible: false,
       communityBoardVisible: false,
-      userBoardsVisible: true
+      userBoardsVisible: true,
+      aboutVisible: false
     })) :
     ('')
+  }
+
+  switchToAbout(){
+    this.setState({
+      headerVisible: false,
+      communityBoardVisible: false,
+      userBoardsVisible: false,
+      aboutVisible: true
+    })
   }
 
   toggleHeader(){
@@ -47,6 +60,7 @@ class App extends React.Component{
         <Navbar
           switchToUserBoardsView={this.switchToUserBoardsView}
           switchToIndex={this.switchToIndex}
+          switchToAbout={this.switchToAbout}
         />
         {this.state.headerVisible ? <Header/> : ''}
         {this.state.communityBoardVisible ?
@@ -55,6 +69,12 @@ class App extends React.Component{
           /> :
         ''}
         {this.state.userBoardsVisible ? <UserBoards/> : ''}
+        {
+          this.state.aboutVisible ?
+            <About />
+          :
+            ''
+        }
         <Footer/>
       </div>
     )

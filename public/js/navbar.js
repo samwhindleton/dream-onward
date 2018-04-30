@@ -20,29 +20,24 @@ class Navbar extends React.Component{
             </div>
             <div id="navBurgerToggleMenu" className="navbar-menu">
               <div className="navbar-end">
-                <a className="navbar-item is-active navbar-item-selected"
+                <a
+                  className="navbar-item is-active navbar-item-selected"
                   onClick={()=> {
                     this.props.switchToIndex();
                   }}
                 >
                   Home
                 </a>
-                <a className="navbar-item navbar-item-selected">
+                <a
+                  className="navbar-item navbar-item-selected"
+                  onClick={()=>{
+                    this.props.switchToAbout();
+                  }}
+                >
                   About
                 </a>
-                <a className="navbar-item navbar-item-selected">
-                  Contact
-                </a>
-                <a className="navbar-item navbar-item-selected">
-                  Signup
-                </a>
-                <a className="navbar-item navbar-item-selected">
-                  Login
-                </a>
-                <a className="navbar-item navbar-item-selected">
-                  Profile
-                </a>
-                <a className="navbar-item navbar-item-selected"
+                <a
+                  className="navbar-item navbar-item-selected"
                   onClick={()=> {
                     this.props.switchToUserBoardsView();
                   }}

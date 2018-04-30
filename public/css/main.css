@@ -119,6 +119,43 @@ h2.subtitle {
 
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+about style
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+.about-container {
+  height: 650px;
+  text-align: center;
+}
+
+.about-container h1 {
+  font-size: 3em;
+  color: var(--glow)
+}
+
+.about-container h4 {
+  font-size: 2em;
+  color: var(--golden);
+  padding-bottom: 15px;
+}
+
+.about-container h2 {
+  font-size: 1em;
+  color: var(--glow);
+  font-weight: bold;
+}
+
+.about-container a {
+  color: var(--glow);
+}
+
+.about-container a:hover {
+  background: var(--glow);
+  color: var(--night);
+}
+
+
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 community images style
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
