@@ -14,6 +14,7 @@ class UserBoard extends React.Component{
     }
     this.toggleCreate = this.toggleCreate.bind(this);
     this.getUserImage = this.getUserImage.bind(this);
+    this.deleteImage = this.deleteImage.bind(this);
   }
 
   createImageSubmit(image){
@@ -65,6 +66,27 @@ class UserBoard extends React.Component{
           })
       }
       console.log(this.state.createVisible)
+  }
+
+  deleteImage(id, index){
+      console.log('is this running?');
+      fetch("/user_boards/" + id, {
+      method: "DELETE"
+  }).then(() =>{
+      console.log('.then is running');
+    this.props.getUsers()
+  })
+  }
+
+  updateImage(image){
+      fetch("user_boards/" + this.props.user.id, {
+          body: JSON.stringify(image),
+          method:"PUT",
+          headers: {
+              'Accept': 'application/json, text/plain, */*',
+              'Content-Type': 'application/json'
+          }
+      })
   }
 
   render(){
@@ -127,6 +149,8 @@ class UserBoard extends React.Component{
             image={this.state.image}
             username={this.state.username}
             getUserImage={this.getUserImage}
+            deleteImage={this.deleteImage}
+
           /> :
         ''}
       </div>

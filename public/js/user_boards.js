@@ -19,6 +19,7 @@ class UserBoards extends React.Component{
 
   // fetch users from database
   getUsers(){
+      console.log('getUser function running');
     fetch("/users")
       .then((response)=>response.json())
       // .then((data)=>console.log(data))
@@ -42,6 +43,7 @@ class UserBoards extends React.Component{
     })
   }
 
+
   render(){
     return(
       <div className="main">
@@ -58,6 +60,7 @@ class UserBoards extends React.Component{
           (this.state.userBoardVisible)?
             <UserBoard
               user={this.state.user}
+              getUsers={this.getUsers}
             />
           :
             ''
