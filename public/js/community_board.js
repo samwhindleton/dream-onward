@@ -150,10 +150,6 @@ class CommunityBoard extends React.Component{
   render(){
     return(
       <div className="landing-container">
-        {/* <Header
-          openCreate={this.openCreate}
-          createVisible={this.state.createVisible}
-        /> */}
         {
           (this.state.createVisible || this.state.showVisible || this.state.editVisible) ?
           ('') :
