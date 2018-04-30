@@ -370,7 +370,9 @@ users list style
 user board style
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
-
+.user_create_form > form {
+  margin: 0 0 5em;
+}
 
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
