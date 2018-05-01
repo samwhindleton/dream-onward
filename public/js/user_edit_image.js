@@ -1,13 +1,22 @@
-class CreateBoardForm extends React.Component{
+class UserEditImage extends React.Component{
   constructor(props){
     super(props);
     this.state = ({
+      id: 0,
       user_id: this.props.user.id,
       image: '',
       description: ''
     });
     this.getInputs = this.getInputs.bind(this);
-    this.createSubmit = this.createSubmit.bind(this);
+    this.editSubmit = this.editSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    this.setState({
+      id: this.props.image.id,
+      image: this.props.image.image,
+      description: this.props.image.description
+    })
   }
 
   getInputs(event){
@@ -17,17 +26,17 @@ class CreateBoardForm extends React.Component{
     });
   }
 
-  createSubmit(event){
+  editSubmit(event){
     event.preventDefault();
-    this.props.createImageSubmit(this.state, this.props.user);
+    this.props.editImageSubmit(this.state, this.props.user);
   }
 
   render(){
     return(
       <div className="user_create_form comm_image_create_container">
-        <form onSubmit={this.createSubmit}>
+        <form onSubmit={this.editSubmit}>
           <div>
-            <h1>Add Your Dream {this.props.user.username}!</h1>
+            <h1>Edit Your Dream {this.props.user.username}!</h1>
           </div>
           <div>
             <label className="label" for="image">Image URL:</label>
@@ -36,7 +45,6 @@ class CreateBoardForm extends React.Component{
               type="URL"
               name="image"
               id="image"
-              placeholder="https://i.imgur.com/wg0XlFt.jpg"
               onChange={this.getInputs}
               value={this.state.image}
               required
@@ -63,7 +71,7 @@ class CreateBoardForm extends React.Component{
           <button
             type="button"
             className="button cancel-button"
-            onClick={this.props.toggleCreate}
+            onClick={this.props.toggleEdit}
           >
             Cancel
           </button>

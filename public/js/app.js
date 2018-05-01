@@ -25,14 +25,12 @@ class App extends React.Component{
   }
 
   switchToUserBoardsView(){
-    (this.state.headerVisible) ?
     (this.setState({
       headerVisible: false,
       communityBoardVisible: false,
       userBoardsVisible: true,
       aboutVisible: false
-    })) :
-    ('')
+    }))
   }
 
   switchToAbout(){

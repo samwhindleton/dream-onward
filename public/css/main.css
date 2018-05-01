@@ -80,6 +80,24 @@ nav.navbar.is-fixed-top, .hero-head, .navbar-menu {
   background: var(--night);
 }
 
+.navbar {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.navbar-brand {
+  margin-left: 1.5em;
+}
+
+.navbar-menu-items {
+  align-items: center;
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-right: 1.5em;
+}
+
 .navbar-brand h1, h1.title {
   color: var(--glow);
 }
@@ -375,6 +393,7 @@ users list style
 
 .user {
   align-items: center;
+  display: flex;
   justify-content: center;
   height: 9em;
   -moz-transition-duration: 1200ms;

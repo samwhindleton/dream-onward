@@ -7,12 +7,13 @@ class UsersList extends React.Component{
           <div className="username-list">
             {this.props.userData.map((user, index)=>{
               return(
-                <div className="user tile is-3">
-                  <h3
-                    onClick={()=>{
-                      this.props.getUserBoard(user)
-                    }}
-                  >{user.first_name}</h3>
+                <div
+                  onClick={()=>{
+                    this.props.getUserBoard(user)
+                  }}
+                  className="user tile is-3"
+                >
+                  <h3>{user.first_name}</h3>
                 </div>
               )
             })}
